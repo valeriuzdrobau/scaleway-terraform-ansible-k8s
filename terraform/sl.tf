@@ -5,7 +5,7 @@ provider "scaleway" {
 }
 
 resource "scaleway_ip" "ip_test" {
-  count = 1
+  count = 2
 }
 
 data "scaleway_image" "ubuntu" {
@@ -20,6 +20,15 @@ resource "scaleway_server" "test_server" {
   state          = "running"
   security_group = "${scaleway_security_group.http.id}"
   public_ip      = "${scaleway_ip.ip_test.0.ip}"
+}
+
+resource "scaleway_server" "test_server2" {
+  name           = "test"
+  image          = "${data.scaleway_image.ubuntu.id}"
+  type           = "START1-XS"
+  state          = "running"
+  security_group = "${scaleway_security_group.http.id}"
+  public_ip      = "${scaleway_ip.ip_test.1.ip}"
 }
 
 resource "scaleway_security_group" "http" {
@@ -50,4 +59,8 @@ resource "scaleway_security_group_rule" "https_accept" {
 
 output "test_output" {
   value = "${scaleway_server.test_server.private_ip}"
+}
+
+output "test_output2" {
+  value = "${scaleway_server.test_server2.public_ip}"
 }
