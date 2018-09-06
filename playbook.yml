@@ -1,0 +1,4 @@
+- hosts: test_server
+  remote_user: root
+  tasks:
+    - command: date

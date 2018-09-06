@@ -1,0 +1,1 @@
+ansible --inventory-file=~/go/bin/terraform-inventory all -u root -m ping

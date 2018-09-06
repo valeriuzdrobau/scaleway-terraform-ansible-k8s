@@ -4,8 +4,8 @@ provider "scaleway" {
   region       = "${var.region}"
 }
 
-resource "scaleway_ip" "ip" {
-  server = "${scaleway_server.test_server.id}"
+resource "scaleway_ip" "ip_test" {
+  count = 1
 }
 
 data "scaleway_image" "ubuntu" {
@@ -17,8 +17,9 @@ resource "scaleway_server" "test_server" {
   name           = "test"
   image          = "${data.scaleway_image.ubuntu.id}"
   type           = "START1-XS"
-  state          = "stopped"
+  state          = "running"
   security_group = "${scaleway_security_group.http.id}"
+  public_ip      = "${scaleway_ip.ip_test.0.ip}"
 }
 
 resource "scaleway_security_group" "http" {
@@ -47,40 +48,6 @@ resource "scaleway_security_group_rule" "https_accept" {
   port      = 443
 }
 
-# resource "scaleway_volume" "test_vol" {
-#   name       = "test_volume"
-#   size_in_gb = 25
-#   type       = "l_ssd"
-# }
-
-
-# resource "scaleway_volume_attachment" "test" {
-#   server = "${scaleway_server.test_server.id}"
-#   volume = "${scaleway_volume.test_vol.id}"
-# }
-
-
-# output "worker_private_ips" {
-#   value = ["${scaleway_server.worker.*.private_ip}"]
-# }
-
-
-# output "master_private_ips" {
-#   value = ["${scaleway_server.master.*.private_ip}"]
-# }
-
-
-# output "proxy0_private_ips" {
-#   value = ["${scaleway_server.proxy0.*.private_ip}"]
-# }
-
-
-# output "proxy1_private_ips" {
-#   value = ["${scaleway_server.proxy1.*.private_ip}"]
-# }
-
-
-# output "public_ip" {
-#   value = ["${scaleway_server.proxy0.*.public_ip}"]
-# }
-
+output "test_output" {
+  value = "${scaleway_server.test_server.private_ip}"
+}
