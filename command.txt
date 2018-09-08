@@ -1,1 +1,3 @@
 ansible --inventory-file=~/go/bin/terraform-inventory all -u root -m ping
+ansible-playbook --inventory-file=~/go/bin/terraform-inventory -u root ../playbook.yml
+ansible --inventory-file=~/go/bin/terraform-inventory all -u root -m shell -a "cowsay coucou" 

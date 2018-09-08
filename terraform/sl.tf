@@ -15,6 +15,7 @@ data "scaleway_image" "ubuntu" {
 
 resource "scaleway_server" "test_server" {
   name           = "test"
+  tags           = ["kube-master"]
   image          = "${data.scaleway_image.ubuntu.id}"
   type           = "START1-XS"
   state          = "running"
@@ -24,6 +25,7 @@ resource "scaleway_server" "test_server" {
 
 resource "scaleway_server" "test_server2" {
   name           = "test"
+  tags           = ["kube-node"]
   image          = "${data.scaleway_image.ubuntu.id}"
   type           = "START1-XS"
   state          = "running"

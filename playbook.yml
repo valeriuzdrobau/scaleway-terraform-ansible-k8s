@@ -1,4 +1,14 @@
-- hosts: test_server
-  remote_user: root
+- hosts: role_test
+  # remote_user: root
   tasks:
-    - command: date
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+    - name: Install cowsay
+      become: true
+      apt:
+        name: cowsay
+        state: present
+    - shell: cowsay "coucou"
+    - name: raw result of running date command"
+      debug: msg="{{ lookup('pipe','date') }}"
